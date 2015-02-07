@@ -21,7 +21,7 @@ public class SnakeDriver {
 	public static Canvas canvas;
 	static SnakeHead snakehead;
 	//private static Food food;
-	public static MoveSnake movesnake;
+	public static Movements movesnake;
 	public static Rectangle rect;
 	public static Image background; 
 	
@@ -45,7 +45,7 @@ public class SnakeDriver {
 		snakehead = new SnakeHead(200, 300, display);
 		//food = new Food(200,-5, display);
 		shell.open();
-		movesnake = new MoveSnake(snakehead);
+		movesnake = new Movements(snakehead);
 		movesnake.start();
 		// keeps shell open until user closes it
 		while (!shell.isDisposed()) {

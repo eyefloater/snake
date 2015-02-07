@@ -5,6 +5,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
 public class SnakeHead {
@@ -13,9 +14,7 @@ public class SnakeHead {
 	private Image leftSnakehead;
 	private Image rightSnakehead;
 	private Rectangle rect;
-
-	private int x;
-	private int y;
+	private SnakeLocation snakelocation;
 	private int direction;
 	private static final int UP = 0;
 	private static final int DOWN = 1;
@@ -24,8 +23,7 @@ public class SnakeHead {
 
 	public SnakeHead(int x, int y, Device display) {
 		super();
-		this.x = x;
-		this.y = y;
+		snakelocation = new SnakeLocation(x,y);
 		direction = UP;
 		rect = SnakeDriver.rect;
 
@@ -39,35 +37,43 @@ public class SnakeHead {
 				"C:/workspace/Snake/images/rightsnakehead.gif");
 	}
 
-	public void Move() {
+	public synchronized void  Move() {
 		switch (direction) {
 		case UP:
-			y--;
-			break;
+			if (snakelocation.getY() == 0) {
+				direction = DOWN;
+			} else {
+				snakelocation.decY();
+			}
+			;
 		case DOWN:
-			y++;
-			break;
+			if (snakelocation.getY() == rect.height) {
+				direction = UP;
+			} else {
+				snakelocation.incY();
+			}
+			;
 		case LEFT:
-			if (x == 0) {
+			if (snakelocation.getX() == 0) {
 				direction = RIGHT;
 			} else {
-				x--;
+				snakelocation.decX();
 			}
 			;
 			break;
 		case RIGHT:
 		default:
-			if (x == rect.width - 80) {
+			if (snakelocation.getX() == rect.width - 80) {
 				direction = LEFT;
 			} else {
-				x++;
+				snakelocation.incX();
 			}
 			;
 			break;
 		}
 	}
 
-	public void setXY(MouseEvent e) {
+	public void  setXY(MouseEvent e) {
 		if (e.x < rect.width/3)
 		//&& e.y>rect.height/3
 		//&& e.y<rect.height*(2/3))
@@ -103,39 +109,25 @@ public class SnakeHead {
 	public void draw(PaintEvent e) 
 	{
 		GC gc = e.gc;
-
+		Point p = snakelocation.getXY();
 		switch (direction) {
+		
 		case UP:
-			gc.drawImage(upSnakehead, x, y);
+			gc.drawImage(upSnakehead, p.x,p.y);
 			break;
 		case DOWN:
-			gc.drawImage(downSnakehead, x, y);
+			gc.drawImage(downSnakehead, p.x,p.y);
 			break;
 		case LEFT:
-			gc.drawImage(leftSnakehead, x, y);
+			gc.drawImage(leftSnakehead, p.x,p.y);
 			break;
 		case RIGHT:
 		default:
-			gc.drawImage(rightSnakehead, x, y);
+			gc.drawImage(rightSnakehead, p.x,p.y);
 			break;
 		}
 
 	}
 
-	public int getX() 
-	{
-		return x;
-	}
-	public void setX(int x) 
-	{
-		this.x = x;
-	}
-	public int getY() 
-	{
-		return y;
-	}
-	public void setY(int y) 
-	{
-		this.y = y;
-	}
+
 }
