@@ -40,7 +40,7 @@ public class SnakeHead {
 	public synchronized void  Move() {
 		switch (direction) {
 		case UP:
-			if (snakelocation.getY() == 0) {
+			if (snakelocation.getY() == rect.height*(1/3)) {
 				direction = DOWN;
 			} else {
 				snakelocation.decY();
