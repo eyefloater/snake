@@ -39,7 +39,7 @@ public class SnakeDriver {
 		//Color blue = display.getSystemColor(SWT.COLOR_GREEN);
 		//Color listBackground = display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
 		background = new Image(display,
-				"C:/workspace/Snake/images/backgroundgrass.jpg");
+				"C:/Users/admin/Documents/GitHub/snake/images/backgroundgrass.jpg");
 		shell.setBackgroundImage (background);
 		 shell.setBackgroundMode(SWT.INHERIT_FORCE);  
 		snakehead = new SnakeHead(200, 300, display);
@@ -75,7 +75,7 @@ public class SnakeDriver {
 
 			public void mouseDown(MouseEvent e) {
 
-				snakehead.setXY(e);
+				//snakehead.setXY(e);
 				canvas.redraw();
 			}
 

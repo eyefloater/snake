@@ -17,9 +17,9 @@ public class SnakeHead {
 	private SnakeLocation snakelocation;
 	private int direction;
 	private static final int UP = 0;
-	private static final int DOWN = 1;
-	private static final int LEFT = 2;
-	private static final int RIGHT = 3;
+	private static final int RIGHT = 1;
+	private static final int DOWN = 2;
+	private static final int LEFT = 3;
 
 	public SnakeHead(int x, int y, Device display) {
 		super();
@@ -28,19 +28,19 @@ public class SnakeHead {
 		rect = SnakeDriver.rect;
 
 		upSnakehead = new Image(display,
-				"C:/workspace/Snake/images/upsnakehead.gif");
+				"C:/Users/admin/Documents/GitHub/snake/images/upsnakehead.gif");
 		downSnakehead = new Image(display,
-				"C:/workspace/Snake/images/downsnakehead.gif");
+				"C:/Users/admin/Documents/GitHub/snake/images/downsnakehead.gif");
 		leftSnakehead = new Image(display,
-				"C:/workspace/Snake/images/leftsnakehead.gif");
+				"C:/Users/admin/Documents/GitHub/snake/images/leftsnakehead.gif");
 		rightSnakehead = new Image(display,
-				"C:/workspace/Snake/images/rightsnakehead.gif");
+				"C:/Users/admin/Documents/GitHub/snake/images/rightsnakehead.gif");
 	}
 
 	public synchronized void  Move() {
 		switch (direction) {
 		case UP:
-			if (snakelocation.getY() == rect.height*(1/3)) {
+			if (snakelocation.getY() == 0) {
 				direction = DOWN;
 			} else {
 				snakelocation.decY();
@@ -78,14 +78,24 @@ public class SnakeHead {
 		//&& e.y>rect.height/3
 		//&& e.y<rect.height*(2/3))
 		{
-			direction = LEFT;
+			if (direction < 3){
+				direction++;
+				
+			}
+				
+			else
+				direction = 0;
 		}
 
 		else if (e.x >= rect.width*(2/3))
 		//&& e.y>rect.height/3
 		//&& e.y<rect.height*(2/3))
 		{
-			direction = RIGHT;
+			if (direction < 3) {
+				direction--;
+			} else
+				direction = 0;
+			//direction = RIGHT;
 		}
 
 		else if (e.y < rect.height/3)
