@@ -25,6 +25,7 @@ public class SnakeDriver {
 	public static Rectangle rect;
 	public static Image background; 
 	
+	
 	public static void main(String[] args) {
 
 		Display display = Display.getDefault();
@@ -75,13 +76,17 @@ public class SnakeDriver {
 
 			public void mouseDown(MouseEvent e) {
 
+<<<<<<< HEAD
 				//snakehead.setXY(e);
+=======
+				snakehead.checkDirection(e);
+>>>>>>> 8a185ebfb6fcb694e3b372a5faceb1f7e2880156
 				canvas.redraw();
 			}
 
 			public void mouseUp(MouseEvent e) {
 
-				snakehead.setXY(e);
+				//snakehead.setXY(e);
 			}
 
 			public void mouseDoubleClick(MouseEvent e) {
