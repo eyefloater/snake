@@ -16,35 +16,40 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import com.gaby.snake.configuration.SnakeConf;
+import com.gaby.snake.parsers.ConfigParser;
+
 public class SnakeDriver {
-	
+
 	public static Canvas canvas;
 	static SnakeHead snakehead;
-	//private static Food food;
+	// private static Food food;
 	public static Movements movesnake;
 	public static Rectangle rect;
-	public static Image background; 
-	
-	
+	public static Image background;
+
 	public static void main(String[] args) {
+
+		SnakeConf sc = new ConfigParser().parseXMLFromStream();
 
 		Display display = Display.getDefault();
 
 		Shell shell = new Shell(display);
-		rect = new Rectangle(100, 100, 600, 600);
-		
+		rect = new Rectangle(100, 100, 600, sc.getHeight());
+
 		shell.setBounds(rect);
 		shell.setText("SNAKE");
 		createContents(shell);
 		Display.getCurrent();
-		//Color blue = display.getSystemColor(SWT.COLOR_GREEN);
-		//Color listBackground = display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+		// Color blue = display.getSystemColor(SWT.COLOR_GREEN);
+		// Color listBackground =
+		// display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
 		background = new Image(display,
 				"C:/Users/admin/Documents/GitHub/snake/images/backgroundgrass.jpg");
-		shell.setBackgroundImage (background);
-		 shell.setBackgroundMode(SWT.INHERIT_FORCE);  
+		shell.setBackgroundImage(background);
+		shell.setBackgroundMode(SWT.INHERIT_FORCE);
 		snakehead = new SnakeHead(200, 300, display);
-		//food = new Food(200,-5, display);
+		// food = new Food(200,-5, display);
 		shell.open();
 		movesnake = new Movements(snakehead);
 		movesnake.start();
@@ -67,7 +72,6 @@ public class SnakeDriver {
 		canvas.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
 				snakehead.draw(e);
-				
 
 			}
 		});
@@ -76,17 +80,16 @@ public class SnakeDriver {
 
 			public void mouseDown(MouseEvent e) {
 
-<<<<<<< HEAD
-				//snakehead.setXY(e);
-=======
+				// snakehead.setXY(e);
+
 				snakehead.checkDirection(e);
->>>>>>> 8a185ebfb6fcb694e3b372a5faceb1f7e2880156
+
 				canvas.redraw();
 			}
 
 			public void mouseUp(MouseEvent e) {
 
-				//snakehead.setXY(e);
+				// snakehead.setXY(e);
 			}
 
 			public void mouseDoubleClick(MouseEvent e) {
