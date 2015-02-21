@@ -4,49 +4,38 @@ import org.eclipse.swt.graphics.Point;
 
 public class SnakeLocation {
 
-	private int y;
-	private int x;
+	//private int y;
+	//private int x;
+	private Point location;
 	
 	public SnakeLocation(int y, int x) {
 		super();
-		this.y = y;
-		this.x = x;
+		location = new Point(x, y);
 	}
 
-	synchronized public int  getY() {
-		return y;
+	public synchronized Point getLocation() {
+		return location;
 	}
 
-	synchronized public void  setY(int y) {
-		this.y = y;
+	public synchronized void setLocation(Point location) {
+		this.location = location;
 	}
 
-	synchronized public int getX() {
-		return x;
-	}
-
-	synchronized public void setX(int x) {
-		this.x = x;
+	public synchronized void incX() {
+		location.x++;
 	}
 	
-	synchronized public Point getXY(){
-		return new Point(x,y);
+	public synchronized void incY() {
+		location.y++;
 	}
 	
-	synchronized public void incX(){
-		x++;
+	public synchronized void decX() {
+		location.x--;
 	}
 	
-	synchronized public void incY(){
-		y++;
+	public synchronized void decY() {
+		location.y--;
 	}
 	
-	synchronized public void decX(){
-		x--;
-	}
-	
-	synchronized public void decY(){
-		y--;
-	}
-	
+	//todo: add code to determine if snake is at margins
 }
