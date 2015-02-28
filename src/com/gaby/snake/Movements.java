@@ -12,19 +12,12 @@ class Movements extends Thread {
 	public Movements(SnakeHead turnsnake) {
 		super("movethread");
 		this.turnsnake = turnsnake;
-
 	}
-	
-	
 
 	public void setMouse(int x, int y) {
 		this.mouseX = x;
 		this.mouseY = y;
 	}
-
-
-
-
 
 	public void run() {
 		System.out.println("i'm running");

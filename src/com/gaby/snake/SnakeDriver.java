@@ -23,7 +23,8 @@ import com.gaby.snake.parsers.ConfigParser;
 public class SnakeDriver {
 
 	public static Canvas canvas;
-	static SnakeHead snakehead;
+	//static SnakeHead snakehead;
+	static Snake snake;
 	// private static Food food;
 	public static Movements movesnake;
 	public static Rectangle rect;
@@ -31,6 +32,7 @@ public class SnakeDriver {
 	public static GC gcImage;
 	public static Image offImage;// = new Image(shell.getDisplay(),
 									// canvas.getBounds());
+	
 
 	public static void main(String[] args) {
 
@@ -54,7 +56,9 @@ public class SnakeDriver {
 				"C:/Users/admin/Documents/GitHub/snake/images/backgroundgrass.jpg");
 		shell.setBackgroundImage(background);
 		shell.setBackgroundMode(SWT.INHERIT_FORCE);
-		snakehead = new SnakeHead(200, 300, display);
+		//snakehead = new SnakeHead(200, 300, display);
+		Image body = new Image(display, "C:/Users/admin/Documents/Github/snake/images/segment.jpg");
+		snake = new Snake(body);
 		// food = new Food(200,-5, display);
 		shell.open();
 		offImage = new Image(shell.getDisplay(), canvas.getBounds());
@@ -72,8 +76,8 @@ public class SnakeDriver {
 				 * lock
 				 */
 				// Point loc = getImageLoc();
-				Point loc = snakehead.snakelocation.getLocation();
-				gcImage.drawImage(snakehead.draw(e), loc.x, loc.y);
+				Point loc = snake.getHead().snakelocation.getLocation();
+				snake.getHead().draw(gcImage);
 
 				/**
 				 * Draw the off-screen image to the screen
@@ -90,7 +94,7 @@ public class SnakeDriver {
 
 				// snakehead.setXY(e);
 
-				snakehead.checkDirection(e);
+				snake.getHead().checkDirection(e);
 
 				canvas.redraw();
 			}
@@ -108,7 +112,7 @@ public class SnakeDriver {
 
 		// }
 
-		movesnake = new Movements(snakehead);
+		movesnake = new Movements(snake.getHead());
 		movesnake.start();
 		// keeps shell open until user closes it
 		while (!shell.isDisposed()) {

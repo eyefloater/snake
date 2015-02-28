@@ -16,20 +16,23 @@ public class SnakeHead {
 	private Rectangle rect;
 	public SnakeLocation snakelocation;
 	private int direction;
-	private static final int UP = 0;
 
-	private static final int RIGHT = 1;
-	private static final int DOWN = 2;
-	private static final int LEFT = 3;
 
-	private static final int STOP = 4;
+	public static final int UP = 0;
+
+	public static final int RIGHT = 1;
+	public static final int DOWN = 2;
+	public static final int LEFT = 3;
+
+	public static final int STOP = 4;
 	public static Buttons buttons;
-	//public Point location;
+
+	// public Point location;
 
 	public SnakeHead(int x, int y, Device display) {
 		super();
-		
-		//location = new Point(x, y);
+
+		// location = new Point(x, y);
 		snakelocation = new SnakeLocation(x, y);
 		direction = UP;
 		rect = SnakeDriver.rect;
@@ -43,8 +46,7 @@ public class SnakeHead {
 				"C:/Users/admin/Documents/GitHub/snake/images/leftsnakehead.gif");
 		rightSnakehead = new Image(display,
 				"C:/Users/admin/Documents/GitHub/snake/images/rightsnakehead.gif");
-	
-	
+
 	}
 
 	public synchronized void checkDirection(MouseEvent e) {
@@ -126,70 +128,97 @@ public class SnakeHead {
 		}
 	}
 
-
-	public void  setXY(MouseEvent e) {
-		if (e.x < rect.width/3)
-		//&& e.y>rect.height/3
-		//&& e.y<rect.height*(2/3))
+	public void setXY(MouseEvent e) {
+		if (e.x < rect.width / 3)
+		// && e.y>rect.height/3
+		// && e.y<rect.height*(2/3))
 		{
-			if (direction < 3){
+			if (direction < 3) {
 				direction++;
-				
+
 			}
-				
+
 			else
 				direction = 0;
 		}
 
-		else if (e.x >= rect.width*(2/3))
-		//&& e.y>rect.height/3
-		//&& e.y<rect.height*(2/3))
+		else if (e.x >= rect.width * (2 / 3))
+		// && e.y>rect.height/3
+		// && e.y<rect.height*(2/3))
 		{
 			if (direction < 3) {
 				direction--;
 			} else
 				direction = 0;
-			//direction = RIGHT;
+			// direction = RIGHT;
 		}
 
-		else if (e.y < rect.height/3)
+		else if (e.y < rect.height / 3)
 		// && e.x>rect.width-((2/3)*Snake.rect.width)
 		// && e.x<Snake.rect.width-((1/3)*Snake.rect.width ))
 		{
 			direction = UP;
 		}
 
-		else if (e.y > rect.height*(2/3))
+		else if (e.y > rect.height * (2 / 3))
 		// && e.x>rect.width-((2/3)*Snake.rect.width)
 		// && e.x<Snake.rect.width-((1/3)*Snake.rect.width ))
 		{
 			direction = DOWN;
 		}
 
-
 	}
 
-	public Image draw(PaintEvent e) {
+//	public Image draw(PaintEvent e) {
+//
+//		GC gc = e.gc;
+//		Point p = snakelocation.getLocation();
+//		switch (direction) {
+//
+//		case UP:
+//			gc.drawImage(upSnakehead, p.x, p.y);
+//			return upSnakehead;
+//		case DOWN:
+//			gc.drawImage(downSnakehead, p.x, p.y);
+//			return downSnakehead;
+//		case LEFT:
+//			gc.drawImage(leftSnakehead, p.x, p.y);
+//			return leftSnakehead;
+//		case RIGHT:
+//		default:
+//			gc.drawImage(rightSnakehead, p.x, p.y);
+//			return rightSnakehead;
+//		}
+//
+//	}
+	
+	public void draw(GC gc) {
 
-		GC gc = e.gc;
 		Point p = snakelocation.getLocation();
 		switch (direction) {
 
 		case UP:
 			gc.drawImage(upSnakehead, p.x, p.y);
-			return upSnakehead;
+			//return upSnakehead;
+			break;
 		case DOWN:
 			gc.drawImage(downSnakehead, p.x, p.y);
-			return downSnakehead;
+			//return downSnakehead;
+			break;
 		case LEFT:
 			gc.drawImage(leftSnakehead, p.x, p.y);
-			return leftSnakehead;
+			//return leftSnakehead;
+			break;
 		case RIGHT:
 		default:
 			gc.drawImage(rightSnakehead, p.x, p.y);
-			return rightSnakehead;
+			//return rightSnakehead;
+			break;
 		}
-		
+
 	}
 
+	public int getDirection() {
+		return direction;
+	}
 }
