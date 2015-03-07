@@ -4,8 +4,7 @@ import org.eclipse.swt.graphics.Point;
 
 public class SnakeLocation {
 
-	//private int y;
-	//private int x;
+	
 	private Point location;
 	
 	public SnakeLocation(int y, int x) {

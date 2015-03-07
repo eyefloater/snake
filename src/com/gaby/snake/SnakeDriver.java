@@ -3,117 +3,54 @@ package com.gaby.snake;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.internal.win32.RECT;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
-import com.gaby.snake.configuration.SnakeConf;
-import com.gaby.snake.parsers.ConfigParser;
+//import com.gaby.snake.configuration.SnakeConf;
+//import com.gaby.snake.parsers.ConfigParser;
 
 public class SnakeDriver {
 
 	public static Canvas canvas;
-	//static SnakeHead snakehead;
-	static Snake snake;
-	// private static Food food;
-	public static Movements movesnake;
+	public static Display display;
 	public static Rectangle rect;
-	public static Image background;
 	public static GC gcImage;
-	public static Image offImage;// = new Image(shell.getDisplay(),
-									// canvas.getBounds());
-	
+	public static Image offImage;
+	public static Shell shell;
+	public static Image logo;
+	private static HttpCommunicator httpcommunicator;
 
 	public static void main(String[] args) {
 
-		SnakeConf sc = new ConfigParser().parseXMLFromStream();
+		// SnakeConf sc = new ConfigParser().parseXMLFromStream();
 
 		Display display = Display.getDefault();
+		rect = new Rectangle(100, 100, 600, 600);
+		shell = new Shell(display);
 
-		Shell shell = new Shell(display);
-		rect = new Rectangle(100, 100, 600, sc.getHeight());
+		// sc.getHeight());
 
 		shell.setBounds(rect);
 		shell.setText("SNAKE");
-		shell.setLayout(new FillLayout());
-		canvas = new Canvas(shell, SWT.NO_BACKGROUND | SWT.COLOR_DARK_CYAN);
 
-		Display.getCurrent();
-		// Color blue = display.getSystemColor(SWT.COLOR_GREEN);
-		// Color listBackground =
-		// display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
-		background = new Image(display,
-				"C:/Users/admin/Documents/GitHub/snake/images/backgroundgrass.jpg");
-		shell.setBackgroundImage(background);
-		shell.setBackgroundMode(SWT.INHERIT_FORCE);
-		//snakehead = new SnakeHead(200, 300, display);
-		Image body = new Image(display, "C:/Users/admin/Documents/Github/snake/images/segment.jpg");
-		snake = new Snake(body);
-		// food = new Food(200,-5, display);
+		shell.setLayout(new FormLayout());
+
+		canvas = new Canvas(shell, SWT.NO_BACKGROUND);
+		canvas.setVisible(false);
+		createLayout(shell);
 		shell.open();
-		offImage = new Image(shell.getDisplay(), canvas.getBounds());
-		gcImage = new GC(offImage);
+		// SnakeGame snakegame = new SnakeGame(display, shell, canvas);
 
-		canvas.addPaintListener(new PaintListener() {
-			public void paintControl(PaintEvent e) {
-				// snakehead.draw(e);
-				gcImage.drawImage(background, 0, 0);
-
-				/**
-				 * get the new image location, This method is synchronized so if
-				 * the update thread is modifying the location, this thread (the
-				 * UI thread) will wait until the updating thread releases the
-				 * lock
-				 */
-				// Point loc = getImageLoc();
-				Point loc = snake.getHead().snakelocation.getLocation();
-				snake.getHead().draw(gcImage);
-
-				/**
-				 * Draw the off-screen image to the screen
-				 * 
-				 */
-				e.gc.drawImage(offImage, 0, 0);
-
-			}
-		});
-
-		canvas.addMouseListener(new MouseListener() {
-
-			public void mouseDown(MouseEvent e) {
-
-				// snakehead.setXY(e);
-
-				snake.getHead().checkDirection(e);
-
-				canvas.redraw();
-			}
-
-			public void mouseUp(MouseEvent e) {
-
-				// snakehead.setXY(e);
-			}
-
-			public void mouseDoubleClick(MouseEvent e) {
-				// System.out.println("Mouse Double click at: "+e.x);
-			}
-
-		});
-
-		// }
-
-		movesnake = new Movements(snake.getHead());
-		movesnake.start();
 		// keeps shell open until user closes it
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -123,59 +60,97 @@ public class SnakeDriver {
 
 	}
 
-	private static void createContents(Shell shell) {
-		// shell.setLayout(new FillLayout());
+	public static void createLayout(Shell parent) {
 
-		// Create a canvas
-		// canvas = new Canvas(shell, SWT.NONE);
+		Image logo = new Image(display, "images/logo.png");
 
-		// Create a paint handler for the canvas
-		// canvas.addPaintListener(new PaintListener() {
-		// public void paintControl(PaintEvent e) {
-		// //snakehead.draw(e);
-		// gcImage.drawImage(background, 0, 0);
-		//
-		// /**
-		// * get the new image location, This method is synchronized so if
-		// * the update thread is modifying the location, this thread (the
-		// * UI thread) will wait until the updating thread releases the
-		// * lock
-		// */
-		// //Point loc = getImageLoc();
-		// Point loc = snakehead.snakelocation.getLocation();
-		// gcImage.drawImage(snakehead.draw(e), loc.x, loc.y);
-		//
-		// /**
-		// * Draw the off-screen image to the screen
-		// *
-		// */
-		// e.gc.drawImage(offImage, 0, 0);
-		//
-		// }
-		// });
-		//
-		// canvas.addMouseListener(new MouseListener() {
-		//
-		// public void mouseDown(MouseEvent e) {
-		//
-		// // snakehead.setXY(e);
-		//
-		// snakehead.checkDirection(e);
-		//
-		// canvas.redraw();
-		// }
-		//
-		// public void mouseUp(MouseEvent e) {
-		//
-		// // snakehead.setXY(e);
-		// }
-		//
-		// public void mouseDoubleClick(MouseEvent e) {
-		// // System.out.println("Mouse Double click at: "+e.x);
-		// }
-		//
-		// });
-		//
-		// }
+		// create a FormLayout and set its margin
+		FormLayout layout = new FormLayout();
+		layout.marginHeight = 5;
+		layout.marginWidth = 5;
+
+
+		Label loginImage = new Label(parent, SWT.CENTER);
+		loginImage.setImage(logo);
+		loginImage.pack();
+		FormData fd = new FormData();
+		fd.top = new FormAttachment(0, 50);
+		fd.left = new FormAttachment(0, 150);
+		fd.bottom = new FormAttachment(0, 250);
+		fd.right = new FormAttachment(0, 350);
+		loginImage.setLayoutData(fd);
+
+		Label userLabel = new Label(parent, SWT.LEFT);
+		userLabel.setText("user");
+		fd = new FormData();
+		fd.top = new FormAttachment(loginImage, 10, SWT.BOTTOM);
+		fd.bottom = new FormAttachment(loginImage, 30, SWT.BOTTOM);
+		fd.left = new FormAttachment(loginImage, 0, SWT.LEFT);
+		fd.right = new FormAttachment(loginImage, 60, SWT.LEFT);
+		userLabel.setLayoutData(fd);
+
+		Text user = new Text(parent, SWT.NONE);
+		fd = new FormData();
+		fd.top = new FormAttachment(userLabel, 0, SWT.TOP);
+		fd.bottom = new FormAttachment(userLabel, 0, SWT.BOTTOM);
+		fd.left = new FormAttachment(userLabel, 5, SWT.LEFT);
+		fd.right = new FormAttachment(userLabel, 120, SWT.RIGHT);
+		user.setLayoutData(fd);
+
+		Label passwordLabel = new Label(parent, SWT.LEFT);
+		passwordLabel.setText("password");
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(userLabel, 10, SWT.BOTTOM);
+		formData.bottom = new FormAttachment(userLabel, 30, SWT.BOTTOM);
+		formData.left = new FormAttachment(userLabel, 0, SWT.LEFT);
+		formData.right = new FormAttachment(userLabel, 0, SWT.RIGHT);
+		passwordLabel.setLayoutData(formData);
+
+		Text password = new Text(parent, SWT.NONE);
+		fd = new FormData();
+		fd.top = new FormAttachment(passwordLabel, 0, SWT.TOP);
+		fd.bottom = new FormAttachment(passwordLabel, 0, SWT.BOTTOM);
+		fd.left = new FormAttachment(passwordLabel, 0, SWT.LEFT);
+		fd.right = new FormAttachment(passwordLabel, 120, SWT.RIGHT);
+		password.setLayoutData(fd);
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setText("LOGIN");
+		fd = new FormData();
+		fd.top = new FormAttachment(password, 10, SWT.BOTTOM);
+		fd.bottom = new FormAttachment(password, 30, SWT.BOTTOM);
+		fd.left = new FormAttachment(password, 0, SWT.LEFT);
+		fd.right = new FormAttachment(password, 0, SWT.RIGHT);
+		button.setLayoutData(fd);
+
+		// set layout for parent
+		parent.setLayout(layout);
+
+		button.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseDown(MouseEvent arg0) {
+				System.out.println("CLICK");
+				httpcommunicator = new HttpCommunicator();
+				String response = httpcommunicator.get("test");
+				int k = 0;
+
+			}
+
+			@Override
+			public void mouseUp(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
 	}
+
 }

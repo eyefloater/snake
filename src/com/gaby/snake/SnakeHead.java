@@ -39,13 +39,13 @@ public class SnakeHead {
 		buttons = new Buttons(rect);
 
 		upSnakehead = new Image(display,
-				"C:/Users/admin/Documents/GitHub/snake/images/upsnakehead.gif");
+				"images/upsnakehead.gif");
 		downSnakehead = new Image(display,
-				"C:/Users/admin/Documents/GitHub/snake/images/downsnakehead.gif");
+				"images/downsnakehead.gif");
 		leftSnakehead = new Image(display,
-				"C:/Users/admin/Documents/GitHub/snake/images/leftsnakehead.gif");
+				"images/leftsnakehead.gif");
 		rightSnakehead = new Image(display,
-				"C:/Users/admin/Documents/GitHub/snake/images/rightsnakehead.gif");
+				"images/rightsnakehead.gif");
 
 	}
 
@@ -94,8 +94,8 @@ public class SnakeHead {
 		switch (direction) {
 		case UP:
 
-			if (loc.x == 0) {
-				direction = DOWN;
+			if (loc.y == 0) {
+				direction = RIGHT;
 			} else {
 
 				snakelocation.decY();
@@ -104,7 +104,7 @@ public class SnakeHead {
 
 		case DOWN:
 			if (loc.y == rect.height) {
-				direction = UP;
+				direction = LEFT;
 			} else {
 				snakelocation.incY();
 			}
@@ -112,15 +112,15 @@ public class SnakeHead {
 			break;
 		case LEFT:
 			if (loc.x == 0) {
-				direction = DOWN;
+				direction = UP;
 			} else {
 				snakelocation.decX();
 			}
 
 			break;
 		case RIGHT:
-			if (loc.x == rect.height) {
-				direction = UP;
+			if (loc.x == rect.width) {
+				direction = DOWN;
 			} else {
 				snakelocation.incX();
 			}
