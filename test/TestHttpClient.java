@@ -9,7 +9,7 @@ private HttpCommunicator httpcommunicator;
 	@Test
 	public void test() {
 		httpcommunicator = new HttpCommunicator();
-		String response = httpcommunicator.get("test");
+		int response = httpcommunicator.get("test");
 		int k = 0;
 	}
 }

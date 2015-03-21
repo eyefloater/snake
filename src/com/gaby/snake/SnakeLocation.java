@@ -12,27 +12,27 @@ public class SnakeLocation {
 		location = new Point(x, y);
 	}
 
-	public synchronized Point getLocation() {
+	public Point getLocation() {
 		return location;
 	}
 
-	public synchronized void setLocation(Point location) {
+	public void setLocation(Point location) {
 		this.location = location;
 	}
 
-	public synchronized void incX() {
+	public void incX() {
 		location.x++;
 	}
 	
-	public synchronized void incY() {
+	public void incY() {
 		location.y++;
 	}
 	
-	public synchronized void decX() {
+	public void decX() {
 		location.x--;
 	}
 	
-	public synchronized void decY() {
+	public void decY() {
 		location.y--;
 	}
 	

@@ -7,6 +7,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
 public class Snake {
@@ -15,9 +16,9 @@ public class Snake {
 	private SnakeHead head;
 	private List<SnakeSegment> body;
 
-	public Snake(Image image) {
+	public Snake(Image image, Rectangle rect) {
 		super();
-		head = new SnakeHead(0, 0, Display.getDefault());
+		head = new SnakeHead(0, 0, Display.getDefault(), rect);
 		body = new ArrayList<SnakeSegment>();
 
 		for (int i = 0; i < 2; i++) {
@@ -35,10 +36,4 @@ public class Snake {
 		this.head = head;
 	}
 
-	public void draw(GC gc) {
-		//GC gc = e.gc;
-		Point p = head.snakelocation.getLocation();
-		head.draw(gc);
-
-	}
 }
