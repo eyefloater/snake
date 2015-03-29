@@ -1,5 +1,6 @@
 package com.gaby.snake;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -26,24 +27,23 @@ public class SnakeDriver {
 	private static Canvas canvas;
 	private static Display display;
 	private static Rectangle rect;
-	//private static GC gcImage;
-	//private static Image offImage;
+	// private static GC gcImage;
+	// private static Image offImage;
 	private static Shell shell;
 	private static Button startButton;
 	private static Button loginButton;
 	private static Label userLabel;
 	private static Composite loginComposite;
-	
+
 	// public static Shell shellStart;
 	// public static Shell shellGame;
 
 	public static Image logo;
-	//private static HttpCommunicator httpcommunicator;
+	// private static HttpCommunicator httpcommunicator;
 	private static Text user;
 	private static Label loginImage;
 	private static Label passwordLabel;
 	private static Text password;
-
 
 	public static void main(String[] args) {
 
@@ -55,34 +55,34 @@ public class SnakeDriver {
 
 		shell.setBounds(rect);
 		shell.setText("SNAKE");
-	
+
 		shell.setLayout(new FormLayout());
 		loginComposite = new Composite(shell, SWT.NONE);
 		RowLayout rowLayout = new RowLayout(SWT.VERTICAL);
 		rowLayout.center = true;
-		rowLayout.marginLeft = rect.width/3;
-        rowLayout.marginTop = 5;
-        rowLayout.marginRight = 5;
-        rowLayout.marginBottom = 5;
-        
+		rowLayout.marginLeft = rect.width / 3;
+		rowLayout.marginTop = 5;
+		rowLayout.marginRight = 5;
+		rowLayout.marginBottom = 5;
+
 		loginComposite.setLayout(rowLayout);
-		
+
 		FormData fd = new FormData();
-	    fd.top = new FormAttachment(0, 0);
-	    fd.left = new FormAttachment(0, 0);
-	    fd.bottom = new FormAttachment(100, 0);
-	    fd.right = new FormAttachment(100, 0);
-	    loginComposite.setLayoutData(fd);
+		fd.top = new FormAttachment(0, 0);
+		fd.left = new FormAttachment(0, 0);
+		fd.bottom = new FormAttachment(100, 0);
+		fd.right = new FormAttachment(100, 0);
+		loginComposite.setLayoutData(fd);
 
 		canvas = new Canvas(shell, SWT.DOUBLE_BUFFERED);
 		fd = new FormData();
-	    fd.top = new FormAttachment(0, 0);
-	    fd.left = new FormAttachment(0, 0);
-	    fd.bottom = new FormAttachment(100, 0);
-	    fd.right = new FormAttachment(100, 0);
-	    canvas.setLayoutData(fd);
-	    canvas.setVisible(false);
-		
+		fd.top = new FormAttachment(0, 0);
+		fd.left = new FormAttachment(0, 0);
+		fd.bottom = new FormAttachment(100, 0);
+		fd.right = new FormAttachment(100, 0);
+		canvas.setLayoutData(fd);
+		canvas.setVisible(false);
+
 		createLoginLayout();
 		shell.open();
 		// keeps shell open until user closes it forever
@@ -97,7 +97,6 @@ public class SnakeDriver {
 	public static void createLoginLayout() {
 
 		Image logo = new Image(display, "images/logo.png");
-
 
 		loginImage = new Label(loginComposite, SWT.RIGHT);
 		loginImage.setImage(logo);
@@ -124,30 +123,37 @@ public class SnakeDriver {
 
 			@Override
 			public void mouseDown(MouseEvent arg0) {
-				String senduser = user.getText();
-				String sendpassword = password.getText();
+				final String senduser = user.getText();
+				final String sendpassword = password.getText();
 				startButton.setVisible(true);
 				loginButton.setVisible(false);
 				userLabel.setVisible(false);
 				user.setVisible(false);
 				passwordLabel.setVisible(false);
 				password.setVisible(false);
+
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						if ((senduser == null) || (sendpassword == null)) {
+							return;
+						}
+						HttpCommunicator communicator = new HttpCommunicator();
+						int responseCode = communicator.get("login");
+						if (HttpStatus.SC_OK != responseCode) {
+							return;
+						}
+
+						String response = communicator.post(senduser, sendpassword);
+
+					}
+
+				}).start();
 				
-				// Commented out to continue developing without needing the
-				// server to be up
-				// if ((senduser == null) || (sendpassword ==null)){
-				// return;
-				// }
-				// HttpCommunicator communicator = new HttpCommunicator();
-				// int responseCode = communicator.get("test");
-				// if(HttpStatus.SC_OK != responseCode){
-				// return;
-				// }
-				//
-				// String response = communicator.post(senduser, sendpassword);
-				// int k = 0;
 
 				
+				int k = 0;
 
 			}
 
@@ -180,8 +186,8 @@ public class SnakeDriver {
 				// return;
 				// }
 				loginComposite.setVisible(false);
-			    canvas.setVisible(true);
-			    createGame();
+				canvas.setVisible(true);
+				createGame();
 
 			}
 
@@ -197,7 +203,7 @@ public class SnakeDriver {
 			}
 
 		});
-	
+
 	}
 
 	public static void createGame() {
