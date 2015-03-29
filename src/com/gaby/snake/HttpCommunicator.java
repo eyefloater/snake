@@ -24,7 +24,7 @@ public class HttpCommunicator {
 	private String user;
  
     private final String USER_AGENT = "Mozilla/5.0";
-    private final String url = "http://localhost:8080/SnakeHttpServer/";
+    private final String url = "http://localhost:8080/SnakeServer/";
     private HttpClient client = HttpClientBuilder.create().build();
     private String cookies;
  
