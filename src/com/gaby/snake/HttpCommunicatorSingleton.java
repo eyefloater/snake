@@ -18,14 +18,26 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
  
-public class HttpCommunicator {
+public class HttpCommunicatorSingleton {
  
+	public static HttpCommunicatorSingleton instance;
+	
     private final String USER_AGENT = "Mozilla/5.0";
     private final String url = "http://localhost:8080/SnakeHttpServer/";
     private HttpClient client = HttpClientBuilder.create().build();
     private String cookies;
  
-    public String get(String action) {
+    private HttpCommunicatorSingleton() { 
+    	
+    };
+    
+    public static synchronized HttpCommunicatorSingleton getInstance() {
+    	if (instance == null)
+    		instance = new HttpCommunicatorSingleton();
+    	return instance;
+    }
+    
+    public int get(String action) {
         try {
             HttpGet request = new HttpGet(url+action);
  
@@ -54,23 +66,23 @@ public class HttpCommunicator {
             setCookies(response.getFirstHeader("Set-Cookie") == null ? ""
                     : response.getFirstHeader("Set-Cookie").toString());
  
-            return result.toString();
+            return responseCode;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return -1;
     }
  
-    public String post(String action) {
+    public String post(String user, String password) {
         try {
-            HttpPost post = new HttpPost(url+action);
+            HttpPost post = new HttpPost(url+"login");
  
             // add header
             post.setHeader("User-Agent", USER_AGENT);
  
             List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-            urlParameters.add(new BasicNameValuePair("username", "snake"));
-            urlParameters.add(new BasicNameValuePair("password", "magic"));
+            urlParameters.add(new BasicNameValuePair("username", user));
+            urlParameters.add(new BasicNameValuePair("password", password));
             post.setEntity(new UrlEncodedFormEntity(urlParameters));
  
             HttpResponse response = client.execute(post);
