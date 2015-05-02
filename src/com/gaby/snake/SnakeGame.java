@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class SnakeGame {
 
+	private static SnakeGame instance;
 	public Canvas canvas;
 	public Rectangle rect;
 	public Image background;
@@ -31,7 +32,7 @@ public class SnakeGame {
 	public GC gcImage;
 	public Image offImage;
 
-	public SnakeGame(Display display, Shell shell, final Canvas canvas) {
+	private SnakeGame(Display display, Shell shell, final Canvas canvas) {
 		
 		this.rect = canvas.getBounds();
 		shell.setBackgroundImage(background);
@@ -98,5 +99,11 @@ public class SnakeGame {
 		movesnake = new Movements(snake.getHead());
 		movesnake.start();
 
+	}
+	
+	public static synchronized SnakeGame getSnakeGameInstance(Display display, Shell shell, Canvas canvas) {
+		if (instance == null)
+			instance = new SnakeGame(display, shell, canvas);
+		return instance;
 	}
 }
