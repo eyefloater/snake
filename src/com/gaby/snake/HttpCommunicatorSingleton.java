@@ -23,7 +23,8 @@ public class HttpCommunicatorSingleton {
 	public static HttpCommunicatorSingleton instance;
 	
     private final String USER_AGENT = "Mozilla/5.0";
-    private final String url = "http://localhost:8080/SnakeHttpServer/";
+    private final String url = "http://192.168.0.9:8080/SnakeServer/";
+    //private final String url = "http://localhost:8080/SnakeHttpServer/";
     private HttpClient client = HttpClientBuilder.create().build();
     private String cookies;
  

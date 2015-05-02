@@ -180,11 +180,11 @@ public class SnakeDriver {
 			@Override
 			public void mouseDown(MouseEvent arg0) {
 
-				// HttpCommunicator communicator = new HttpCommunicator();
-				// int responseCode = communicator.get("test");
-				// if (HttpStatus.SC_OK != responseCode) {
-				// return;
-				// }
+				 HttpCommunicatorSingleton communicator = HttpCommunicatorSingleton.getInstance();
+				 int responseCode = communicator.get("test");
+				 if (HttpStatus.SC_OK != responseCode) {
+				 return;
+				 }
 				loginComposite.setVisible(false);
 				canvas.setVisible(true);
 				createGame();
